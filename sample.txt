@@ -1,0 +1,51 @@
+Title: Python Object-Oriented Programming Rubric for sampleCode.py
+
+GRADING SCALE:
+- Exceeding Expectations: 20 points
+- Meets Expectations: 15 points  
+- Below Expectations: 10 points
+- Minimal Effort: 5 points
+- Failed: 0 points
+
+CRITERION 1: Class Structure Requirements (Max: 20 points)
+- Exceeding Expectations (20): Contains 4+ classes with proper inheritance hierarchy. All classes have __init__ methods with super() calls where appropriate.
+- Meets Expectations (15): Contains 3+ classes with inheritance. Base class exists and is properly inherited by at least 2 derived classes.
+- Below Expectations (10): Contains 2-3 classes with basic inheritance structure present.
+- Minimal Effort (5): Contains 1-2 classes with minimal or incorrect inheritance implementation.
+- Failed (0): No classes defined or code doesn't execute.
+
+CRITERION 2: Method Implementation Count (Max: 20 points)
+- Exceeding Expectations (20): Each class contains 4+ methods (excluding __init__). At least one method is overridden in derived classes.
+- Meets Expectations (15): Each class contains 3+ methods (excluding __init__). Method overriding is demonstrated at least once.
+- Below Expectations (10): Each class contains 2+ methods (excluding __init__). Limited method implementation.
+- Minimal Effort (5): Classes contain 1-2 methods each with basic functionality.
+- Failed (0): Classes have no methods or methods don't function.
+
+CRITERION 3: Code Execution and Error Handling (Max: 20 points)
+- Exceeding Expectations (20): Code runs without errors AND includes try/except blocks in at least 3 places with specific error handling.
+- Meets Expectations (15): Code runs without errors AND includes at least one try/except block or input validation check.
+- Below Expectations (10): Code runs without errors but has no error handling mechanisms.
+- Minimal Effort (5): Code runs with minor errors or warnings but produces output.
+- Failed (0): Code fails to run or produces critical errors.
+
+CRITERION 4: Documentation Requirements (Max: 20 points)
+- Exceeding Expectations (20): ALL classes AND ALL methods have docstrings. Docstrings include parameter descriptions and return value explanations.
+- Meets Expectations (15): ALL classes have docstrings AND at least 80% of methods have docstrings.
+- Below Expectations (10): At least 50% of classes have docstrings AND at least 50% of methods have docstrings.
+- Minimal Effort (5): Some classes or methods have docstrings but coverage is less than 50%.
+- Failed (0): No docstrings present or docstrings are empty/meaningless.
+
+CRITERION 5: Variable and Function Naming (Max: 20 points)
+- Exceeding Expectations (20): ALL variables use snake_case, ALL classes use PascalCase, ALL methods use snake_case, and names are descriptive (no single letters except loop counters).
+- Meets Expectations (15): At least 90% of variables/methods use proper snake_case naming and class names use PascalCase.
+- Below Expectations (10): At least 70% of variables/methods follow naming conventions.
+- Minimal Effort (5): At least 50% of variables/methods follow naming conventions.
+- Failed (0): Poor naming throughout (camelCase, unclear names, or inconsistent naming).
+
+Total Possible Score: 100 points
+
+OBJECTIVE MEASUREMENT GUIDE:
+- Count the actual number of classes, methods, docstrings, and error handling blocks
+- Check naming conventions by scanning for snake_case vs camelCase patterns
+- Verify inheritance by checking for class(ParentClass) syntax and super() calls
+- Test code execution by running the file and checking for errors
