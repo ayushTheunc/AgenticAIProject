@@ -22,7 +22,7 @@ CRITERION 2: Method Implementation Count (Max: 20 points)
 - Failed (0): Classes have no methods or methods don't function.
 
 CRITERION 3: Code Execution and Error Handling (Max: 20 points)
-- Exceeding Expectations (20): Code runs without errors AND includes try/except blocks in at least 3 places with specific error handling.
+- Exceeding Expectations (20): Code runs without errors AND includes try/except blocks in at least 1 place with specific error handling.
 - Meets Expectations (15): Code runs without errors AND includes at least one try/except block or input validation check.
 - Below Expectations (10): Code runs without errors but has no error handling mechanisms.
 - Minimal Effort (5): Code runs with minor errors or warnings but produces output.

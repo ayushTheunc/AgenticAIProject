@@ -158,6 +158,10 @@ class Foo:
 
 
 def animal_playground():
+    try:
+        print('hi')
+    except:
+        print('error')
     """Demonstrate the animal classes."""
     # Create animals
     cat = Cat("Whiskers", 3, "Siamese")
