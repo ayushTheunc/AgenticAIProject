@@ -1,4 +1,9 @@
-import subprocess, json, os, sys, argparse, zipfile, tempfile, shutil
+import os
+import sys
+import argparse
+import zipfile
+import tempfile
+import shutil
 from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
 from langchain_core.prompts import PromptTemplate
@@ -14,7 +19,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(
         description="Analyze code from a zipped repository against a grading rubric using Azure OpenAI",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
+        epilog=""" 
 Examples:
   python sample.py rubric.txt assignment.zip file1.py file2.py
   python sample.py sample.txt student_repo.zip sampleCode.py utils.py
@@ -82,9 +87,9 @@ def extract_zip(zip_path):
     
     try:
         temp_dir = tempfile.mkdtemp()
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        with zipfile.ZipFile(zip_path, 'r')  as zip_ref:
             zip_ref.extractall(temp_dir)
-        print(f"Extracted repository to temporary directory")
+        print("Extracted repository to temporary directory")
         return temp_dir
     except Exception as e:
         print(f"Error extracting zip file '{zip_path}': {str(e)}")
@@ -261,7 +266,7 @@ else:
 # Clean up temp directory
 if temp_repo_path and os.path.exists(temp_repo_path):
     shutil.rmtree(temp_repo_path)
-    print(f"\nCleaned up temporary files")
+    print("\nCleaned up temporary files")
 
 # ----------------------------
 # 6. Display results
