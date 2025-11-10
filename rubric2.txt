@@ -1,0 +1,89 @@
+[["organizations.py", "organizationModel.py"], ["chatbot.py", "chatSession.py", "chatMessage.py"], ]
+-----------------------------------------------------------------------------------------
+
+# FastAPI Repository Evaluation Rubric (Binary Assessment)
+
+## Simple Pass/Fail Criteria for FastAPI Route and Pydantic Model Standards
+
+**Scoring:** Each criterion is either **PASS** ✓ or **FAIL** ✗
+
+**Final Grade:** Based on percentage of criteria passed
+
+
+
+## 1. HTTP Method Usage (5 criteria)
+
+**Check each criterion - PASS ✓ or FAIL ✗:**
+
+| Criterion | Pass/Fail | Notes |
+|-----------|-----------|-------|
+| All GET routes only retrieve data (no modifications) | ⬜ ✓ / ✗ | |
+| All POST routes create new resources | ⬜ ✓ / ✗ | |
+| All PUT routes update entire resources | ⬜ ✓ / ✗ | |
+| All DELETE routes remove resources | ⬜ ✓ / ✗ | |
+| No GET routes used for data modification | ⬜ ✓ / ✗ | |
+
+**Section Score:** ___/5 **Pass Threshold:** 3/5
+
+---
+
+## 2. Path Parameters (2 criteria)
+
+**Check each criterion - PASS ✓ or FAIL ✗:**
+
+| Criterion | Pass/Fail | Notes |
+|-----------|-----------|-------|
+| All path parameters have type annotations (e.g., `{user_id: int}`) | ⬜ ✓ / ✗ | |
+| No spaces or special characters in URLs | ⬜ ✓ / ✗ | |
+
+**Section Score:** ___/2 **Pass Threshold:** 2/2
+
+---
+
+## 3. Pydantic Models (7 criteria)
+
+**Check each criterion - PASS ✓ or FAIL ✗:**
+
+| Criterion | Pass/Fail | Notes |
+|-----------|-----------|-------|
+| All POST request bodies use Pydantic models | ⬜ ✓ / ✗ | |
+| All PUT request bodies use Pydantic models | ⬜ ✓ / ✗ | |
+| All response models defined with Pydantic | ⬜ ✓ / ✗ | |
+| Models use proper type hints (str, int, bool, etc.) | ⬜ ✓ / ✗ | |
+| No raw dictionaries used in request/response | ⬜ ✓ / ✗ | |
+| Field validation present (Field() with constraints) | ⬜ ✓ / ✗ | |
+| Model names follow PascalCase convention | ⬜ ✓ / ✗ | |
+
+**Section Score:** ___/7 **Pass Threshold:** 5/7
+
+---
+
+## 4. Error Handling (3 criteria)
+
+**Check each criterion - PASS ✓ or FAIL ✗:**
+
+| Criterion | Pass/Fail | Notes |
+|-----------|-----------|-------|
+| Uses HTTPException for error responses | ⬜ ✓ / ✗ | |
+| Error messages are clear and helpful | ⬜ ✓ / ✗ | |
+| No generic 200 responses for errors | ⬜ ✓ / ✗ | |
+
+**Section Score:** ___/3 **Pass Threshold:** 2/3
+
+---
+
+## Overall Assessment
+
+| Section | Score | Pass? |
+|---------|-------|-------|
+| HTTP Method Usage | ___/5 | ⬜ Pass ⬜ Fail |
+| Path Parameters | ___/2 | ⬜ Pass ⬜ Fail |
+| Pydantic Models | ___/7 | ⬜ Pass ⬜ Fail |
+| Error Handling | ___/5 | ⬜ Pass ⬜ Fail |
+
+**Total Score:** ___/17
+
+## Final Grade
+
+**Percentage:** ___% (Total Score / 17 × 100)
+

@@ -21,9 +21,9 @@ def parse_arguments():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=""" 
 Examples:
-  python sample.py rubric.txt assignment.zip file1.py file2.py
-  python sample.py sample.txt student_repo.zip sampleCode.py utils.py
-  python sample.py grading_rubric.txt project.zip main.py helper.py config.py
+  python sample.py rubric.txt assignment.zip "[[file1.py,file2.py],[file3.py,file4.py]]"
+  python sample.py sample.txt student_repo.zip "[[sampleCode.py,utils.py]]"
+  python sample.py grading_rubric.txt project.zip "[[main.py,helper.py],[config.py,test.py]]"
         """
     )
     
@@ -39,11 +39,36 @@ Examples:
     
     parser.add_argument(
         "files",
-        nargs="+",
-        help="List of up to 5 code files to analyze (names or paths within the zip)"
+        help="2D list of file batches in string format, e.g., '[[file1.py,file2.py],[file3.py,file4.py]]'"
     )
     
     return parser.parse_args()
+
+def parse_file_batches(files_arg):
+    """Parse the 2D list string argument into a list of lists."""
+    import ast
+    try:
+        # Remove any whitespace and parse the string as a Python literal
+        file_batches = ast.literal_eval(files_arg)
+        
+        # Validate the structure
+        if not isinstance(file_batches, list):
+            raise ValueError("Files argument must be a list")
+        
+        for i, batch in enumerate(file_batches):
+            if not isinstance(batch, list):
+                raise ValueError(f"Batch {i} must be a list")
+            if not all(isinstance(filename, str) for filename in batch):
+                raise ValueError(f"All items in batch {i} must be strings (filenames)")
+        
+        print(f"Parsed {len(file_batches)} file batches: {file_batches}")
+        return file_batches
+        
+    except (ValueError, SyntaxError) as e:
+        print(f"Error parsing files argument. Expected format: '[[file1.py,file2.py],[file3.py]]'")
+        print(f"Received: {files_arg}")
+        print(f"Error: {e}")
+        sys.exit(1)
 
 # ----------------------------
 # 2. Load files with error handling
@@ -156,16 +181,17 @@ def load_code_files(repo_path, file_list):
 # Parse arguments and load files
 args = parse_arguments()
 rubric_text = load_rubric(args.rubric_file)
+file_batches = parse_file_batches(args.files)
 
 print(f"Loaded rubric from: {args.rubric_file}")
 print(f"Extracting repository: {args.zip_repo}")
 temp_repo_path = extract_zip(args.zip_repo)
-
-print(f"Loading {len(args.files)} file(s)...")
-code_files = load_code_files(temp_repo_path, args.files)
-
-print(f"Successfully loaded {len(code_files)} file(s)")
+print(f"Found {len(file_batches)} batches to process")
 print("-" * 50)
+
+
+
+
 
 
 
@@ -209,78 +235,79 @@ if missing_vars:
     print("- AZURE_OPENAI_API_VERSION: API version (optional, defaults to 2024-10-21)")
     exit(1)
 
-try:
-    
-    # Initialize Azure OpenAI
-    llm = AzureChatOpenAI(
-        api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-        azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-        deployment_name=os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME"),
-        api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-10-21"),
-        temperature=0
-    )
+def llmFunction(codeList: list[str], batch_number: int):
 
-    # Format code files into a single string
-    code_sections = []
-    for idx, (filename, content) in enumerate(code_files.items(), 1):
-        code_sections.append(f"File {idx}: {filename}\n{'='*60}\n{content}\n")
-    
-    combined_code = "\n".join(code_sections)
+    try:
+        print(f"Loading {len(codeList)} file(s) for batch {batch_number}...")
+        code_files = load_code_files(temp_repo_path, codeList)
 
-    prompt = prompt_template.format(
-        code=combined_code, rubric=rubric_text, tests="")
+        print(f"Successfully loaded {len(code_files)} file(s)")
+        print("-" * 50)
+        # Initialize Azure OpenAI
+        llm = AzureChatOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+            deployment_name=os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME"),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-10-21"),
+            temperature=0
+        )
 
-    print("Analyzing code with Azure OpenAI...")
-    print("This may take a moment...")
-    
-    response = llm.invoke(prompt)
+        # Format code files into a single string
+        code_sections = []
+        for idx, (filename, content) in enumerate(code_files.items(), 1):
+            code_sections.append(f"File {idx}: {filename}\n{'='*60}\n{content}\n")
+        
+        combined_code = "\n".join(code_sections)
 
-except Exception as e:
-    print(f"Error calling Azure OpenAI: {str(e)}")
-    print("\nPossible issues:")
-    print("1. Check your API key and endpoint are correct")
-    print("2. Verify your deployment name matches your Azure resource")
-    print("3. Ensure you have sufficient quota/credits")
-    print("4. Check if your Azure resource is active")
-    # Clean up temp directory
-    if temp_repo_path and os.path.exists(temp_repo_path):
-        shutil.rmtree(temp_repo_path)
-    exit(1)
+        prompt = prompt_template.format(
+            code=combined_code, rubric=rubric_text, tests="")
 
-# ----------------------------
-# 6. Display results
-# ----------------------------
+        print(f"Analyzing batch {batch_number} with Azure OpenAI...")
+        print("This may take a moment...")
+        
+        response = llm.invoke(prompt)
 
-if response and hasattr(response, 'content'):
-    print("\n" + "="*60)
-    print("AZURE OPENAI CODE ANALYSIS RESULTS")
-    print("="*60)
-    print(f"Rubric: {args.rubric_file}")
-    print(f"Repository: {args.zip_repo}")
-    print(f"Files analyzed: {', '.join(code_files.keys())}")
-    print("="*60)
-    print(response.content)
-else:
-    print("Error: No valid response received from Azure OpenAI")
+    except Exception as e:
+        print(f"Error calling Azure OpenAI: {str(e)}")
+        print("\nPossible issues:")
+        print("1. Check your API key and endpoint are correct")
+        print("2. Verify your deployment name matches your Azure resource")
+        print("3. Ensure you have sufficient quota/credits")
+        print("4. Check if your Azure resource is active")
+        # Clean up temp directory
+        if temp_repo_path and os.path.exists(temp_repo_path):
+            shutil.rmtree(temp_repo_path)
+        exit(1)
+
+    # ----------------------------
+    # 6. Display results
+    # ----------------------------
+
+    if response and hasattr(response, 'content'):
+        print("\n" + "="*60)
+        print(f"BATCH {batch_number} ANALYSIS RESULTS")
+        print("="*60)
+        print(f"Rubric: {args.rubric_file}")
+        print(f"Repository: {args.zip_repo}")
+        print(f"Files analyzed: {', '.join(code_files.keys())}")
+        print("="*60)
+        print(response.content)
+        print("\n" + "="*60)
+        print(f"Batch {batch_number} analysis completed successfully!")
+    else:
+        print(f"Error: No response received from Azure OpenAI for batch {batch_number}")
+        print("Raw response:", response)
+
+
+
+# Process each batch
+for batch_idx, file_batch in enumerate(file_batches, 1):
+    print(f"\n--- Processing Batch {batch_idx}/{len(file_batches)} ---")
+    print(f"Files in batch: {file_batch}")
+    llmFunction(file_batch, batch_idx)
+
 
 # Clean up temp directory
 if temp_repo_path and os.path.exists(temp_repo_path):
     shutil.rmtree(temp_repo_path)
     print("\nCleaned up temporary files")
-
-# ----------------------------
-# 6. Display results
-# ----------------------------
-
-if response and hasattr(response, 'content'):
-    print("\n" + "="*60)
-    print("AZURE OPENAI CODE ANALYSIS RESULTS")
-    print("="*60)
-    print(f"Rubric: {args.rubric_file}")
-    print("-" * 60)
-    print(response.content)
-    print("\n" + "="*60)
-    print("Analysis completed successfully!")
-else:
-    print("Error: No response received from Azure OpenAI")
-    print("Raw response:", response)
