@@ -1,0 +1,55 @@
+Title: Python Coding Style & Best Practices Rubric
+
+GRADING SCALE:
+- Exceeding Expectations: 20 points
+- Meets Expectations: 15 points
+- Below Expectations: 10 points
+- Minimal Effort: 5 points
+- Failed: 0 points
+
+CRITERION 1: Code Organization & Structure (Max: 20 points)
+- Exceeding Expectations (20): Code is modular, with logical separation of responsibilities (e.g., helper functions, clear class hierarchy). Proper use of __main__ guards, no redundant code, consistent indentation.
+- Meets Expectations (15): Code is organized and readable. Minor structural inefficiencies or slight redundancy.
+- Below Expectations (10): Code structure is mostly functional but somewhat cluttered or inconsistent. Some duplication or unclear flow.
+- Minimal Effort (5): Single long file with weak separation of concerns. Poor indentation or inconsistent structure.
+- Failed (0): Code is disorganized or fails due to structure (e.g., nested definitions, missing entry point).
+
+CRITERION 2: Readability & Naming Conventions (Max: 20 points)
+- Exceeding Expectations (20): Consistent PEP 8 adherence: clear variable names (snake_case), class names (PascalCase), constants in UPPER_CASE. No abbreviations or single-letter identifiers (except i, j in loops).
+- Meets Expectations (15): Mostly consistent naming; minor deviations (e.g., one or two camelCase or unclear names).
+- Below Expectations (10): Frequent naming inconsistencies but still interpretable.
+- Minimal Effort (5): Names are short, unclear, or inconsistent throughout.
+- Failed (0): Nonstandard naming conventions dominate; variables or functions are incomprehensible.
+
+CRITERION 3: Documentation & Comments (Max: 20 points)
+- Exceeding Expectations (20): Comprehensive docstrings for all classes and functions, following Google/Sphinx or PEP 257 style. Clear inline comments explain non-obvious logic.
+- Meets Expectations (15): Docstrings for most public methods and classes; comments add value.
+- Below Expectations (10): Partial documentation; inconsistent docstring format.
+- Minimal Effort (5): Sparse or superficial comments (e.g., “# do stuff”).
+- Failed (0): No documentation or misleading comments.
+
+CRITERION 4: Code Correctness & Robustness (Max: 20 points)
+- Exceeding Expectations (20): Code executes without errors, handles edge cases gracefully, uses try/except appropriately, and includes validation for inputs.
+- Meets Expectations (15): Code executes without errors; minor unhandled cases.
+- Below Expectations (10): Code runs but shows warnings or poor edge-case handling.
+- Minimal Effort (5): Code runs but contains runtime issues or fragile logic.
+- Failed (0): Code fails to run or produces critical runtime errors.
+
+CRITERION 5: Pythonic Practices & Style Quality (Max: 20 points)
+- Exceeding Expectations (20): Code reflects idiomatic Python: uses list comprehensions, context managers, f-strings, and clear exception types. Avoids anti-patterns (== None, mutable default args).
+- Meets Expectations (15): Code is mostly Pythonic with minor non-idiomatic constructs.
+- Below Expectations (10): Several non-Pythonic practices (manual loops, poor error types, redundant syntax).
+- Minimal Effort (5): Java/C-like coding style or inefficient constructs dominate.
+- Failed (0): Code ignores Python conventions entirely.
+
+
+Add up the criterion sub scores and return a total score out of 100
+
+
+
+OBJECTIVE MEASUREMENT GUIDE:
+- Count the number of classes, functions, and docstrings
+- Check naming conventions using regex for snake_case vs camelCase
+- Verify presence of main guards and modular organization
+- Detect docstring coverage, f-string usage, and Pythonic constructs (list comprehensions, context managers)
+- Execute code and capture runtime behavior for robustness scoring
