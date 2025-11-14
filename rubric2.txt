@@ -11,7 +11,8 @@
 
 
 
-## 1. HTTP Method Usage (5 criteria)
+
+## 1. HTTP Method Usage (4 criteria)
 
 **Check each criterion - PASS ✓ or FAIL ✗:**
 
@@ -19,11 +20,10 @@
 |-----------|-----------|-------|
 | All GET routes only retrieve data (no modifications) | ⬜ ✓ / ✗ | |
 | All POST routes create new resources | ⬜ ✓ / ✗ | |
-| All PUT routes update entire resources | ⬜ ✓ / ✗ | |
 | All DELETE routes remove resources | ⬜ ✓ / ✗ | |
 | No GET routes used for data modification | ⬜ ✓ / ✗ | |
 
-**Section Score:** ___/5 **Pass Threshold:** 3/5
+**Section Score:** ___/4 **Pass Threshold:** 3/4
 
 ---
 
@@ -40,21 +40,19 @@
 
 ---
 
-## 3. Pydantic Models (7 criteria)
+## 3. Pydantic Models (5 criteria)
 
 **Check each criterion - PASS ✓ or FAIL ✗:**
 
 | Criterion | Pass/Fail | Notes |
 |-----------|-----------|-------|
 | All POST request bodies use Pydantic models | ⬜ ✓ / ✗ | |
-| All PUT request bodies use Pydantic models | ⬜ ✓ / ✗ | |
 | All response models defined with Pydantic | ⬜ ✓ / ✗ | |
 | Models use proper type hints (str, int, bool, etc.) | ⬜ ✓ / ✗ | |
 | No raw dictionaries used in request/response | ⬜ ✓ / ✗ | |
-| Field validation present (Field() with constraints) | ⬜ ✓ / ✗ | |
 | Model names follow PascalCase convention | ⬜ ✓ / ✗ | |
 
-**Section Score:** ___/7 **Pass Threshold:** 5/7
+**Section Score:** ___/5 **Pass Threshold:** 4/5
 
 ---
 
@@ -76,14 +74,14 @@
 
 | Section | Score | Pass? |
 |---------|-------|-------|
-| HTTP Method Usage | ___/5 | ⬜ Pass ⬜ Fail |
+| HTTP Method Usage | ___/4 | ⬜ Pass ⬜ Fail |
 | Path Parameters | ___/2 | ⬜ Pass ⬜ Fail |
-| Pydantic Models | ___/7 | ⬜ Pass ⬜ Fail |
-| Error Handling | ___/5 | ⬜ Pass ⬜ Fail |
+| Pydantic Models | ___/5 | ⬜ Pass ⬜ Fail |
+| Error Handling | ___/3 | ⬜ Pass ⬜ Fail |
 
-**Total Score:** ___/17
+**Total Score:** ___/14
 
 ## Final Grade
 
-**Percentage:** ___% (Total Score / 17 × 100)
+**Percentage:** ___% (Total Score / 14 × 100)
 

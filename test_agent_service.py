@@ -27,8 +27,8 @@ def test_agent_service():
     """Test the agent service function with sample inputs."""
     
     # Load actual file data instead of using file paths
-    zip_file_path = "testing-materials.zip"
-    rubric_file_path = "rubric2.txt"
+    zip_file_path = "animal_samples_dataset.zip"
+    rubric_file_path = "python_coding_style_rubric.txt"
     
     # Load zip file as binary data
     zip_repo_data = load_file_as_bytes(zip_file_path)
@@ -38,9 +38,8 @@ def test_agent_service():
     
     # Define batches
     batch_array = [
-        ["organizations.py", "organizationModel.py"],
-        ["chatbot.py", "chatMessage.py", "chatSession.py"]
-    ]
+       ["animal_v4_typing.py"], ["animal_v5_lazy.py"], ["animal_v6_pep8.py"]]
+    
     
     print("Testing Agent Service Function")
     print("=" * 50)
@@ -53,18 +52,6 @@ def test_agent_service():
     result = agent_service_function(zip_repo_data, rubric_text, batch_array)
     
     # Display results
-    print("\n" + "=" * 60)
-    print("FINAL RESULTS SUMMARY")
-    print("=" * 60)
-    
-    if result["success"]:
-        print(f"✅ Success: {result['summary']}")
-        print(f"Total Batches: {result['total_batches']}")
-        print(f"Successful Batches: {result['successful_batches']}")
-        print(f"Failed Batches: {result['failed_batches']}")
-        print(f"Total Files Processed: {result['total_files_processed']}")
-    else:
-        print(f"❌ Error: {result['error']}")
     
     return result
 
@@ -118,7 +105,5 @@ def test_with_sample_data():
 
 if __name__ == "__main__":
     # Test with actual files if available
-    test_agent_service()
+    print(test_agent_service())
     
-    # Test with sample data to demonstrate interface
-    test_with_sample_data()
