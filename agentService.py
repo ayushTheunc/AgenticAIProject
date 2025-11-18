@@ -62,6 +62,54 @@ Student's Code:
         missing_vars = [var for var in required_vars if not os.getenv(var)]
         if missing_vars:
             raise Exception(f"Missing required environment variables: {', '.join(missing_vars)}")
+        
+    
+    def extract_repo_from_github(self, github_url):
+        """Extract repository from GitHub URL to temporary directory."""
+        
+        if not isinstance(github_url, str) or not github_url.strip():
+            raise ValueError("github_url must be a non-empty string")
+        
+        # Validate GitHub URL format
+        if not ('github.com' in github_url or 'github.io' in github_url):
+            raise ValueError("Invalid GitHub URL")
+        
+        try:
+            import subprocess
+            
+            # Create temporary directory for cloning
+            temp_dir = tempfile.mkdtemp()
+            
+            print(f"Cloning repository from {github_url}...")
+            
+            # Clone the repository using git
+            result = subprocess.run(
+                ['git', 'clone', '--depth', '1', github_url, temp_dir],
+                capture_output=True,
+                text=True,
+                timeout=300  # 5 minute timeout
+            )
+            
+            if result.returncode != 0:
+                raise Exception(f"Git clone failed: {result.stderr}")
+            
+            print(f"Successfully cloned repository to: {temp_dir}")
+            return temp_dir
+            
+        except subprocess.TimeoutExpired:
+            if temp_dir and os.path.exists(temp_dir):
+                shutil.rmtree(temp_dir)
+            raise Exception("Repository clone timed out after 5 minutes")
+        except FileNotFoundError:
+            raise Exception("Git is not installed. Please install git to clone repositories.")
+        except Exception as e:
+            if temp_dir and os.path.exists(temp_dir):
+                try:
+                    shutil.rmtree(temp_dir)
+                except:
+                    pass
+            raise Exception(f"Error cloning repository: {str(e)}")
+    
     
     def _extract_zip_from_data(self, zip_data):
         """Extract zip file from binary data to temporary directory."""
@@ -275,7 +323,7 @@ Student's Code:
 
 
 
-def agent_service_function(zip_repo, rubric, batch_array):
+def agent_service_function(github_link, rubric_json: dict):
     """
     Main function that processes inputs and executes LLM calls.
     
@@ -290,6 +338,8 @@ def agent_service_function(zip_repo, rubric, batch_array):
     
     agent = AgentService()
     temp_repo_path = None
+    rubric = rubric_json["rubric"]
+    batch_array = rubric_json["batches"]
     
     try:
         # Step 1: Validate rubric text content
@@ -302,11 +352,10 @@ def agent_service_function(zip_repo, rubric, batch_array):
         rubric_text = rubric.strip()
         print("Using provided rubric text content")
         
-        # Step 2: Extract zip repository from binary data
-        if not isinstance(zip_repo, bytes):
-            raise TypeError("zip_repo must be bytes containing zip file data")
+
+        #Step 2: Extract repository from GitHub link
+        temp_repo_path = agent.extract_repo_from_github(github_link)
         
-        temp_repo_path = agent._extract_zip_from_data(zip_repo)
         
         # Step 3: Process each batch
         all_results = []

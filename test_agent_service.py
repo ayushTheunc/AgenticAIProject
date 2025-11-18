@@ -3,6 +3,8 @@
 Test script to demonstrate the usage of agentService.py
 """
 
+import json
+
 from agentService import agent_service_function
 
 def load_file_as_bytes(file_path):
@@ -26,30 +28,17 @@ def load_file_as_text(file_path):
 def test_agent_service():
     """Test the agent service function with sample inputs."""
     
+    
+    
     # Load actual file data instead of using file paths
-    zip_file_path = "animal_samples_dataset.zip"
-    rubric_file_path = "python_coding_style_rubric.txt"
+    github_link = "https://github.com/ayushTheunc/comp523testrepo.git"
     
-    # Load zip file as binary data
-    zip_repo_data = load_file_as_bytes(zip_file_path)
+    with open("rubric.json", 'r', encoding='utf-8') as f:
+        rubric = json.load(f)
     
-    # Load rubric file as text content
-    rubric_text = load_file_as_text(rubric_file_path)
-    
-    # Define batches
-    batch_array = [
-       ["animal_v4_typing.py"], ["animal_v5_lazy.py"], ["animal_v6_pep8.py"]]
-    
-    
-    print("Testing Agent Service Function")
-    print("=" * 50)
-    print(f"Zip Repository: {len(zip_repo_data)} bytes of data")
-    print(f"Rubric: {len(rubric_text)} characters of text")
-    print(f"Batch Array: {batch_array}")
-    print("=" * 50)
     
     # Call the function with actual data instead of file paths
-    result = agent_service_function(zip_repo_data, rubric_text, batch_array)
+    result = agent_service_function(github_link, rubric)
     
     # Display results
     
