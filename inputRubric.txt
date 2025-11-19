@@ -1,0 +1,14 @@
+RUBRIC (Total: 6 points)
+
+Each question is worth 1 point. No partial credit.
+
+1. Code uses docstrings for all classes and functions -> Score: _/1
+2. Variable names are descriptive (not single letters like a or b). -> Score: _/1
+3. All functions specify input parameter types and return types. -> Score: _/1
+4. At least one class (parent or child) includes an __init__ method. -> Score: _/1
+5. Code has no redundant / duplicated logic. -> Score: _/1
+6. Code has no syntax errors. -> Score: _/1
+
+Add up all points from all categories and give a Rubric_Score: _ / 6
+
+Hundred_Point_Score: Rubric_Score * 100
