@@ -60,8 +60,8 @@ The API will be available at `http://localhost:8000`
 curl -X POST "http://localhost:8000/grade" \
   -H "Content-Type: application/json" \
   -d '{
-    “github_link”: "https://github.com/fakeUser/fakeRepo.git",
-    "rubric": {     "batches" : [        ["code1.py"], ["code2.py"], ["code3.py"]],     "totalPoints" : 6,     "rubric" : "RUBRIC: Total possible points: 6 Each question is 1 point NO PARTIAL CREDIT: _/1: Docstrings are used for both classes and functions Score, _/1: All variables are descriptive and not too short (like a or b), _/1: All functions specifiy the input parameter type and return type, _/1 : At least either the parent or child class has an init method, _/1: No redundant or duplicated code, _/1: No immediate syntax errors, Add up all points and provide a Rubric_Score: _ / 6 Hundred_Point_Score: Rubric_Score * 100"  }
+    “github_link”: "https://github.com/ayushTheunc/comp523testrepo.git",
+    "rubric": {     "batches" : [        ["animal_v1_basic.py"], ["animal_v2_verbose.py"], ["animal_v3_functional.py"]],     "totalPoints" : 6,     "rubric" : "RUBRIC: Total possible points: 6 Each question is 1 point NO PARTIAL CREDIT: _/1: Docstrings are used for both classes and functions Score, _/1: All variables are descriptive and not too short (like a or b), _/1: All functions specifiy the input parameter type and return type, _/1 : At least either the parent or child class has an init method, _/1: No redundant or duplicated code, _/1: No immediate syntax errors, Add up all points and provide a Rubric_Score: _ / 6 Hundred_Point_Score: Rubric_Score * 100"  }
 
     "test_results": "All tests passed"
   }’
