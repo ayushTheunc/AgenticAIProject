@@ -7,9 +7,9 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import logging
-
+import uvicorn
 from models.models import GradeRequest, GradeResponse, HealthResponse
-from services.grading_service import GradingService
+from services.agentService import agent_service_function, AgentService
 
 # Configure logging
 logging.basicConfig(
@@ -43,7 +43,7 @@ app.add_middleware(
 
 # Initialize grading service
 try:
-    grading_service = GradingService()
+    grading_service = AgentService()
     logger.info("Grading service initialized successfully")
 except Exception as e:
     logger.error(f"Failed to initialize grading service: {str(e)}")
@@ -70,25 +70,31 @@ async def grade_submission(request: GradeRequest):
             detail="Grading service is not initialized. Check environment variables."
         )
     
-    # Log the request
-    logger.info(f"Received grading request - Code length: {len(request.code)} chars, "
-                f"Rubric length: {len(request.rubric)} chars")
     
     try:
         # Call the grading service
-        result = await grading_service.grade_submission(
-            code=request.code,
-            rubric=request.rubric,
-            test_results=request.test_results
+        result = agent_service_function(
+            github_link=request.github_link,
+            rubric_json=request.rubric,
         )
         
         # Log the result
-        if result["success"]:
-            logger.info("Grading completed successfully")
-        else:
+        if isinstance(result, list):
+            logger.info(f"Grading completed successfully for {len(result)} batches")
+            return GradeResponse(
+                success=True,
+                analysis=result,
+                error=None
+            )
+        elif isinstance(result, dict) and not result.get("success", True):
             logger.warning(f"Grading failed: {result.get('error', 'Unknown error')}")
-        
-        return GradeResponse(**result)
+            return GradeResponse(**result)
+        else:
+            return GradeResponse(
+                success=True,
+                analysis=result,
+                error=None
+            )
         
     except Exception as e:
         logger.error(f"Unexpected error during grading: {str(e)}")
@@ -113,7 +119,6 @@ async def global_exception_handler(request, exc):
 
 
 if __name__ == "__main__":
-    import uvicorn
     
     # Run the server
     uvicorn.run(
