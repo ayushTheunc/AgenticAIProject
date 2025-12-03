@@ -5,7 +5,6 @@ An AI-powered code grading system using Azure OpenAI with a FastAPI web service 
 ## Setup
 
 1. Install dependencies:
-
 ```bash
 pip install -r requirements.txt
 ```

@@ -46,9 +46,3 @@ class GradeResponse(BaseModel):
             ]
         }
     }
-
-
-class HealthResponse(BaseModel):
-    """Response model for health check endpoint."""
-    status: str = Field(..., description="Service status")
-    message: str = Field(..., description="Status message")

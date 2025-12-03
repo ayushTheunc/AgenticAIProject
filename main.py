@@ -8,8 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import logging
 import uvicorn
-from models.models import GradeRequest, GradeResponse, HealthResponse
-from services.agentService import agent_service_function, AgentService
+from models.models import GradeRequest, GradeResponse
+from services.agent_service import agent_service_function, AgentService
 
 # Configure logging
 logging.basicConfig(
