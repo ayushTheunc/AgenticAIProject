@@ -7,18 +7,14 @@ import { ChevronLeft, Upload, LogIn } from "lucide-react";
 import { gradeSubmission } from "./api";
 
 const DEFAULT_RUBRIC = `{
-  "correctness": {
-    "weight": 0.5,
-    "description": "Does the code run and meet the assignment specification?"
-  },
-  "style": {
-    "weight": 0.2,
-    "description": "Code clarity, naming, formatting, and structure."
-  },
-  "documentation": {
-    "weight": 0.3,
-    "description": "Comments, README, and overall explanation."
-  }
+      "batches": [
+        ["animal_v1_basic.py"],
+        ["animal_v2_verbose.py"],
+        ["animal_v3_functional.py"]
+      ],
+      "totalPoints": 6,
+      "rubric": "RUBRIC: Total possible points: 6 Each question is 1 point NO PARTIAL CREDIT: _/1: Docstrings are used for both classes and functions Score, _/1: All variables are descriptive and not too short (like a or b), _/1: All functions specifiy the input parameter type and return type, _/1 : At least either the parent or child class has an init method, _/1: No redundant or duplicated code, _/1: No immediate syntax errors, Add up all points and provide a Rubric_Score: _ / 6 Hundred_Point_Score: Rubric_Score * 100"
+    
 }`;
 
 
@@ -147,20 +143,87 @@ function Sidebar({
 function SubmissionReview({ loading, gradeResult }) {
   const hasResult = !!gradeResult;
 
-  // Normalize whatever the backend returns into readable text
+  // Convert JSON analysis to markdown format with final score calculation
   let analysisText = "";
+  let finalScore = null;
+  
   if (hasResult) {
     const a = gradeResult.analysis;
     if (Array.isArray(a)) {
+      // Calculate average score from all batches
+      const scores = [];
+      
+      // Format each batch result as markdown
       analysisText = a
-        .map((item) =>
-          typeof item === "string" ? item : JSON.stringify(item, null, 2)
-        )
-        .join("\n\n");
+        .map((item, index) => {
+          if (typeof item === "string") {
+            return item;
+          }
+          
+          // Extract score for averaging
+          if (item.hundred_point_score !== undefined) {
+            scores.push(parseFloat(item.hundred_point_score));
+          }
+          
+          // Convert JSON object to markdown
+          let md = `## Batch ${index + 1}`;
+          
+          if (item.file_name && Array.isArray(item.file_name)) {
+            md += ` - ${item.file_name.join(", ")}`;
+          }
+          md += `\n\n`;
+          
+          if (item.rubric_score) {
+            md += `**Score:** ${item.rubric_score}\n\n`;
+          }
+          if (item.hundred_point_score !== undefined) {
+            md += `**Points:** ${item.hundred_point_score}/100\n\n`;
+          }
+          if (item.review) {
+            md += `### Review\n\n${item.review}\n\n`;
+          }
+          
+          // Add any other fields from the JSON
+          Object.keys(item).forEach(key => {
+            if (!['rubric_score', 'hundred_point_score', 'review', 'file_name', 'batch_number', 'files_analyzed', 'success'].includes(key)) {
+              md += `**${key}:** ${JSON.stringify(item[key])}\n\n`;
+            }
+          });
+          
+          return md;
+        })
+        .join("\n---\n\n");
+      
+      // Calculate final average score
+      if (scores.length > 0) {
+        finalScore = (scores.reduce((sum, score) => sum + score, 0) / scores.length).toFixed(2);
+        analysisText += `\n---\n\n## Final Score\n\n**Average Score:** ${finalScore}/100 (averaged across ${scores.length} batch${scores.length > 1 ? 'es' : ''})`;
+      }
+      
     } else if (typeof a === "string") {
       analysisText = a;
     } else if (a) {
-      analysisText = JSON.stringify(a, null, 2);
+      // Single object result
+      let md = "";
+      
+      if (a.file_name && Array.isArray(a.file_name)) {
+        md += `**Files:** ${a.file_name.join(", ")}\n\n`;
+      }
+      if (a.rubric_score) {
+        md += `## Score: ${a.rubric_score}\n\n`;
+      }
+      if (a.hundred_point_score !== undefined) {
+        md += `**Points:** ${a.hundred_point_score}/100\n\n`;
+        finalScore = a.hundred_point_score;
+      }
+      if (a.review) {
+        md += `## Review\n\n${a.review}\n\n`;
+      }
+      analysisText = md || JSON.stringify(a, null, 2);
+      
+      if (finalScore !== null) {
+        analysisText += `\n---\n\n## Final Score\n\n**Total Score:** ${finalScore}/100`;
+      }
     }
   }
 
