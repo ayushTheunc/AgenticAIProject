@@ -16,19 +16,21 @@ The AI grading agent analyzes student submissions from GitHub repositories again
 
 ## Prerequisites
 
-### Installing Python 3.12
+### Installing Python 3.14
 
 **macOS:**
 ```bash
 # Using Homebrew
-brew install python@3.12
+brew install python@3.14
 ```
+*Alternative:* Download and install from [python.org](https://www.python.org/downloads/)
 
 **Linux (Ubuntu/Debian):**
 ```bash
 sudo apt update
-sudo apt install python3.12 python3.12-venv
+sudo apt install python3.14 python3.14-venv
 ```
+*Alternative:* Download and install from [python.org](https://www.python.org/downloads/)
 
 **Windows:**
 Download and install from [python.org](https://www.python.org/downloads/)
@@ -40,12 +42,14 @@ Download and install from [python.org](https://www.python.org/downloads/)
 # Using Homebrew
 brew install node
 ```
+*Alternative:* Download and install from [nodejs.org](https://nodejs.org/)
 
 **Linux (Ubuntu/Debian):**
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
+*Alternative:* Download and install from [nodejs.org](https://nodejs.org/)
 
 **Windows:**
 Download and install from [nodejs.org](https://nodejs.org/)
@@ -57,15 +61,40 @@ Download and install from [nodejs.org](https://nodejs.org/)
 # Using Homebrew
 brew install git
 ```
+*Alternative:* Download and install from [git-scm.com](https://git-scm.com/)
 
 **Linux (Ubuntu/Debian):**
 ```bash
 sudo apt update
 sudo apt install git
 ```
+*Alternative:* Download and install from [git-scm.com](https://git-scm.com/)
 
 **Windows:**
 Download and install from [git-scm.com](https://git-scm.com/)
+
+### Installing Visual Studio Code
+
+**macOS:**
+```bash
+# Using Homebrew
+brew install --cask visual-studio-code
+```
+*Alternative:* Download and install from [code.visualstudio.com](https://code.visualstudio.com/)
+
+**Linux (Ubuntu/Debian):**
+```bash
+# Download and install the .deb package
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo apt update
+sudo apt install code
+```
+*Alternative:* Download and install from [code.visualstudio.com](https://code.visualstudio.com/)
+
+**Windows:**
+Download and install from [code.visualstudio.com](https://code.visualstudio.com/)
 
 > **Note:** After installing these prerequisites, you may want to restart your computer to ensure all programs are properly loaded in your system PATH and available in your terminal.
 
@@ -75,7 +104,7 @@ Download and install from [git-scm.com](https://git-scm.com/)
 
 ```bash
 # Create virtual environment with Python 3.12
-python3.12 -m venv venv
+python3.14 -m venv venv
 
 # Activate virtual environment
 # On macOS/Linux:
