@@ -165,6 +165,23 @@ The rubric is a JSON object with the following attributes:
 - **Description:** Optional test results or additional context to include in grading
 - **Example:** `"All tests passed"` or `"5/6 tests passed, 1 timeout"`
 
+### Testing the Application
+
+You can test the application using the following sample data:
+
+**Test GitHub Repository:**
+```
+https://github.com/ayushTheunc/LangchainDemoAgent
+```
+
+**Test Rubric:**
+Use the contents from `sampleRubric.json` in the project root, which includes:
+- File batches: `["animal_v1_basic.py"]`, `["animal_v2_verbose.py"]`, `["animal_v3_functional.py"]`
+- Total points: 6
+- Grading criteria for docstrings, variable naming, type annotations, init methods, code redundancy, and syntax
+
+Simply copy the JSON from `sampleRubric.json` and paste it into the frontend rubric field, then use the test GitHub link above.
+
 ## API Usage
 
 ### Endpoints
