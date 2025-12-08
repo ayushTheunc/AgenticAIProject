@@ -16,19 +16,19 @@ The AI grading agent analyzes student submissions from GitHub repositories again
 
 ## Prerequisites
 
-### Installing Python 3.14
+### Installing Python 3.12
 
 **macOS:**
 ```bash
 # Using Homebrew
-brew install python@3.14
+brew install python@3.12
 ```
 *Alternative:* Download and install from [python.org](https://www.python.org/downloads/)
 
 **Linux (Ubuntu/Debian):**
 ```bash
 sudo apt update
-sudo apt install python3.14 python3.14-venv
+sudo apt install python3.12 python3.12-venv
 ```
 *Alternative:* Download and install from [python.org](https://www.python.org/downloads/)
 
@@ -104,7 +104,7 @@ Download and install from [code.visualstudio.com](https://code.visualstudio.com/
 
 ```bash
 # Create virtual environment with Python 3.12
-python3.14 -m venv venv
+python3.12 -m venv venv
 
 # Activate virtual environment
 # On macOS/Linux:
@@ -335,7 +335,7 @@ curl -X POST "http://localhost:8000/grade" \
 - Run `pip install -r requirements.txt`
 
 **Python Version Issues:**
-- Ensure Python 3.12 is installed: `python3.12 --version`
+- Ensure Python 3.12 is installed: `python --version`
 - Recreate virtual environment if needed
 
 **CORS Errors:**
