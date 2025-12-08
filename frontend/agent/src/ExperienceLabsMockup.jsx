@@ -259,6 +259,14 @@ function SubmissionReview({ loading, gradeResult }) {
           ) : (
             <ul className="text-neutral-300 space-y-2 text-sm list-disc list-inside">
               <li>Paste a GitHub repo and rubric on the left.</li>
+              <li>
+                Format rubric as JSON with three fields: &quot;batches&quot; (array of file name arrays), 
+                &quot;totalPoints&quot; (number), and &quot;rubric&quot; (string with grading criteria).
+                <br />
+                <span className="text-neutral-400 text-xs mt-1 block ml-5">
+                  Example: {`{ "batches": [["file1.py"], ["file2.py"]], "totalPoints": 6, "rubric": "RUBRIC: Total possible points: 6. _/3: Code style, _/3: Documentation" }`}
+                </span>
+              </li>
               <li>Click &quot;Run AI Grader&quot; to fetch a structured review.</li>
               <li>
                 The AI analysis will populate here and in the code panel below.

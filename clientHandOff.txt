@@ -1,0 +1,377 @@
+================================================================================
+AI CODE GRADING AGENT - CLIENT HAND-OFF DOCUMENT
+================================================================================
+Prepared for: Computer Science Department Teaching Assistants
+Project Team: COMP 523 Fall 2025
+
+================================================================================
+1. WHAT IS THIS SYSTEM?
+================================================================================
+
+The AI Code Grading Agent is a LOCAL APPLICATION that runs on your computer.
+It is NOT a cloud service, web hosting platform, or online tool that requires
+external servers.
+
+Technical Description:
+- Type: Stand-alone desktop application with two components
+- Backend: Python-based REST API using FastAPI framework
+- Frontend: React web interface that runs in your browser
+- AI Engine: Connects to UNC's Azure OpenAI service for analysis
+- Architecture: Client-server model running entirely on localhost
+
+
+Current Ownership:
+- Code Repository: Currently owned by the development team on GitHub
+- Location: https://github.com/ayushTheunc/AgenticAIProject
+- Access: Public repository - anyone can view and download
+- Licensing: No formal license currently applied
+
+================================================================================
+2. HOW TO OBTAIN AND SET UP THE SYSTEM
+================================================================================
+
+OVERVIEW: You will download the application files to your computer, install
+some required programs, configure your Azure OpenAI connection, and then run
+the application locally whenever you need to grade code.
+
+-------------------------------------------------------------------------------
+STEP 1: Install Required Software (One-Time Setup)
+-------------------------------------------------------------------------------
+
+You need four programs installed on your computer:
+
+A. Python 3.12
+   Purpose: Runs the backend grading engine
+   Why this specific version: Python 3.14+ has compatibility issues with the
+   AI libraries we use
+   
+   Installation:
+   - Go to https://www.python.org/downloads/
+   - Download Python 3.12 installer
+   - Run the installer
+   - IMPORTANT: On Windows, check "Add Python to PATH" during installation
+   
+   Verify installation:
+   - Open Terminal (Mac/Linux) or Command Prompt (Windows)
+   - Type: python3.12 --version
+   - You should see: Python 3.12.x
+
+B. Node.js and npm
+   Purpose: Runs the web interface
+   
+   Installation:
+   - Go to https://nodejs.org/
+   - Download the LTS (Long Term Support) version
+   - Run the installer
+   
+   Verify installation:
+   - Open Terminal/Command Prompt
+   - Type: node --version
+   - Type: npm --version
+   - Both should display version numbers
+
+C. Git
+   Purpose: Downloads code from GitHub and clones student repositories
+   
+   Installation:
+   - Go to https://git-scm.com/
+   - Download installer for your operating system
+   - Run the installer (default settings are fine)
+   
+   Verify installation:
+   - Open Terminal/Command Prompt
+   - Type: git --version
+   - You should see git version information
+
+D. Visual Studio Code (Recommended but optional)
+   Purpose: Makes it easier to edit configuration files
+   
+   Installation:
+   - Go to https://code.visualstudio.com/
+   - Download installer
+   - Run the installer
+   
+   Alternative: You can use any text editor (Notepad, TextEdit, etc.)
+
+IMPORTANT: After installing all software, RESTART YOUR COMPUTER to ensure
+everything is properly loaded.
+
+-------------------------------------------------------------------------------
+STEP 2: Download the Application
+-------------------------------------------------------------------------------
+
+Option A - Using Git (Recommended):
+1. Open Terminal/Command Prompt
+2. Navigate to where you want the application:
+   cd Desktop
+3. Download the code:
+   git clone https://github.com/ayushTheunc/AgenticAIProject.git
+4. Enter the project folder:
+   cd AgenticAIProject
+
+Option B - Direct Download:
+1. Go to https://github.com/ayushTheunc/AgenticAIProject
+2. Click the green "Code" button
+3. Click "Download ZIP"
+4. Extract the ZIP file to your Desktop or Documents folder
+5. Open Terminal/Command Prompt and navigate to that folder:
+   cd Desktop/AgenticAIProject
+
+-------------------------------------------------------------------------------
+STEP 3: Set Up the Backend (Server Component)
+-------------------------------------------------------------------------------
+
+A. Create Python Virtual Environment
+   This creates an isolated space for the application's Python packages.
+   
+   In Terminal/Command Prompt, inside the AgenticAIProject folder:
+   
+   python3.12 -m venv venv
+   
+   Then activate it:
+   - Mac/Linux: source venv/bin/activate
+   - Windows: venv\Scripts\activate
+   
+   You'll know it worked when you see (venv) at the start of your command line.
+
+B. Install Python Dependencies
+   This downloads all the AI and web server libraries needed.
+   
+   pip install -r requirements.txt
+   
+   This will take 2-5 minutes. You'll see lots of packages being downloaded.
+
+C. Configure Azure OpenAI Connection
+   This is CRITICAL - the application needs these credentials to work.
+   
+   1. Create a new file named ".env" in the AgenticAIProject folder
+      - On Mac/Linux: touch .env
+      - On Windows: type nul > .env
+      - Or use Visual Studio Code: File > New File, save as ".env"
+   
+   2. Open .env in a text editor and add these lines:
+   
+   AZURE_OPENAI_API_KEY=your-api-key-here
+   AZURE_OPENAI_ENDPOINT=https://azureaiapi.cloud.unc.edu
+   AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4o
+   AZURE_OPENAI_API_VERSION=2024-10-21
+   
+   3. Replace "your-api-key-here" with your actual Azure API key
+      - You get this from UNC's Azure portal or your department IT contact
+      - It looks like: a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6 (THIS ISNT A VALID KEY)
+   
+   4. SAVE the file
+
+D. Test the Backend
+   Start the server:
+   
+   uvicorn main:app --reload
+   
+   You should see:
+   "Uvicorn running on http://127.0.0.1:8000"
+   
+   Open a web browser and go to: http://localhost:8000
+   You should see a message like: {"message": "AI Code Grading Agent"}
+   
+   Leave this Terminal window OPEN and RUNNING.
+
+-------------------------------------------------------------------------------
+STEP 4: Set Up the Frontend (Web Interface)
+-------------------------------------------------------------------------------
+
+IMPORTANT: Open a NEW Terminal/Command Prompt window (keep the backend running)
+
+A. Navigate to Frontend Folder
+   
+   cd frontend/agent
+
+B. Install Frontend Dependencies
+   
+   npm install
+   
+   This will take 2-5 minutes and download the web interface components.
+
+C. Start the Frontend
+   
+   npm start
+   
+   After a few seconds, your web browser should automatically open to:
+   http://localhost:3000
+   
+   You'll see the AI Code Grading Agent interface.
+
+-------------------------------------------------------------------------------
+STEP 5: Test the System
+-------------------------------------------------------------------------------
+
+Now you have both components running:
+- Backend server at http://localhost:8000 (Terminal window 1)
+- Frontend interface at http://localhost:3000 (Terminal window 2)
+
+Test with sample data:
+1. In the web interface, paste this GitHub link:
+   https://github.com/ayushTheunc/comp523testrepo
+
+2. For the rubric, open the file "sampleRubric.json" in the AgenticAIProject
+   folder and copy its entire contents into the rubric field.
+
+3. Click "Grade Submission"
+
+4. Wait 30-60 seconds. You should see grading results appear with scores and
+   detailed feedback for each file.
+
+If this works, the system is ready to use!
+
+================================================================================
+3. DAILY USAGE - HOW TO RUN THE APPLICATION
+================================================================================
+
+Every time you want to use the grading system:
+
+1. Open Terminal/Command Prompt
+2. Navigate to project: cd Desktop/AgenticAIProject (or wherever you put it)
+3. Activate Python environment:
+   - Mac/Linux: source venv/bin/activate
+   - Windows: venv\Scripts\activate
+4. Start backend: uvicorn main:app --reload
+5. Open NEW Terminal window
+6. Navigate to frontend: cd Desktop/AgenticAIProject/frontend/agent
+7. Start frontend: npm start
+8. Browser opens to http://localhost:3000 - start grading!
+
+When finished:
+- Press Ctrl+C in both Terminal windows to stop the servers
+- Close Terminal windows
+
+================================================================================
+4. OWNERSHIP AND TRANSFER
+================================================================================
+
+Current State:
+- The code is on GitHub under the student development team's account
+- You do NOT own the repository yet
+
+To Take Ownership:
+
+Option A - Fork the Repository (Recommended):
+1. Create a GitHub account (free) if you don't have one
+2. Go to https://github.com/ayushTheunc/AgenticAIProject
+3. Click "Fork" button (top right)
+4. This creates YOUR copy of the code under your account
+5. You now own and control this copy
+6. Use your forked repository URL in Step 2 of setup
+
+Option B - Download and Store Locally:
+1. Follow the "Direct Download" method in Step 2
+2. Store the ZIP file somewhere safe as a backup
+3. You own the downloaded code, but won't get updates
+
+Option C - Transfer Repository (Requires Student Team):
+1. Create a GitHub account
+2. Ask the student team to transfer repository ownership to your account
+3. This gives you the original repository with all history
+
+Recommended: Option A (Fork) is simplest and gives you full control.
+
+================================================================================
+5. ONGOING COSTS
+================================================================================
+
+Azure OpenAI API Usage:
+- PRIMARY COST: Charged per AI request
+- Cost Structure: Pay-per-token (approximately $0.03-0.06 per 1000 tokens)
+- Typical Grading: ~2000-5000 tokens = $0.06-0.30 per submission
+- Example: Grading 100 submissions = $6-$30
+- Volume discounts may be available through UNC's Azure agreement
+
+Current Semester Setup:
+- You're using UNC's Azure OpenAI service
+- Costs likely covered by department/university allocation
+- Check with your IT department about:
+  * Current spending limits
+  * Who pays the Azure bills
+  * How to monitor usage
+  * Budget planning for future semesters
+
+
+
+Cost Reduction Strategies:
+1. Use grading agent for style/documentation only (let autograders check correctness)
+2. Grade selectively (not every submission)
+3. Batch multiple files together (already implemented)
+4. Use for upper-level courses where style matters most
+
+No Other Costs:
+- No hosting fees (runs locally)
+- No subscription fees
+- No licensing fees
+- No database costs
+- No domain/server costs
+
+IMPORTANT: Get confirmation from your IT department about:
+- Who currently pays for Azure OpenAI access
+- How to monitor spending
+- Budget allocation for next semester
+- Whether costs are centralized or per-department
+
+================================================================================
+6. TECHNICAL SUPPORT AND MAINTENANCE
+================================================================================
+
+Common Issues and Solutions:
+
+Issue: "Python command not found"
+Solution: Install Python 3.12, restart computer, ensure PATH is set
+
+Issue: "Module not found" errors
+Solution: Activate virtual environment (venv), run pip install -r requirements.txt
+
+Issue: "Azure OpenAI error" or "Service Unavailable"
+Solution: Check .env file has correct API key and endpoint
+
+Issue: Frontend won't start
+Solution: Make sure you're in frontend/agent folder, run npm install
+
+Issue: "Connection refused" when grading
+Solution: Ensure backend is running in separate Terminal window
+
+Issue: "Repository not found" error
+Solution: Student repository must be PUBLIC on GitHub
+
+Getting Help:
+1. Check README.md file for detailed technical documentation
+2. Check existing GitHub Issues on the repository
+3. Contact UNC Computer Science IT support
+4. Post issue on GitHub repository (if you have questions)
+
+Regular Maintenance Needed:
+- None for basic operation
+- Optional: Update dependencies every 6-12 months
+- Optional: Update to newer Python versions when compatible
+- Optional: Update Azure API version when UNC updates endpoint
+
+================================================================================
+8. LIMITATIONS AND FUTURE ENHANCEMENTS
+================================================================================
+
+Current Limitations:
+- Only works with PUBLIC GitHub repositories
+- Processes submissions sequentially (not parallel)
+- Runs on individual machines (not centralized)
+- Requires technical setup knowledge
+- No user authentication or access control
+- No grading history or database storage
+
+Potential Future Enhancements:
+- Support for private repositories (requires GitHub token)
+- Web-based deployment for easier access
+- Database to track grading history
+- Batch processing multiple students simultaneously
+- Integration with Canvas/Gradescope
+
+These enhancements would require additional development work.
+
+
+================================================================================
+END OF HAND-OFF DOCUMENT
+================================================================================
