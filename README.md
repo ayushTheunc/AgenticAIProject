@@ -171,7 +171,7 @@ You can test the application using the following sample data:
 
 **Test GitHub Repository:**
 ```
-https://github.com/ayushTheunc/LangchainDemoAgent
+https://github.com/ayushTheunc/comp523testrepo
 ```
 
 **Test Rubric:**
