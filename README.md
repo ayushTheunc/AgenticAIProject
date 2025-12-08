@@ -16,9 +16,58 @@ The AI grading agent analyzes student submissions from GitHub repositories again
 
 ## Prerequisites
 
-- Python 3.12
-- Node.js and npm (for frontend)
-- Git
+### Installing Python 3.12
+
+**macOS:**
+```bash
+# Using Homebrew
+brew install python@3.12
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt update
+sudo apt install python3.12 python3.12-venv
+```
+
+**Windows:**
+Download and install from [python.org](https://www.python.org/downloads/)
+
+### Installing Node.js and npm
+
+**macOS:**
+```bash
+# Using Homebrew
+brew install node
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+**Windows:**
+Download and install from [nodejs.org](https://nodejs.org/)
+
+### Installing Git
+
+**macOS:**
+```bash
+# Using Homebrew
+brew install git
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt update
+sudo apt install git
+```
+
+**Windows:**
+Download and install from [git-scm.com](https://git-scm.com/)
+
+> **Note:** After installing these prerequisites, you may want to restart your computer to ensure all programs are properly loaded in your system PATH and available in your terminal.
 
 ## Backend Setup
 
